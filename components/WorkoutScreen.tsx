@@ -1,58 +1,197 @@
-import React from "react";
-import { View , ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View , ActivityIndicator, TouchableOpacity } from "react-native";
 import { makeStyles, Text, Button, useThemeMode } from "@rneui/themed";
 import { Image } from '@rneui/themed';
+import WorkoutDB from '../dbops/WorkoutDB'
+import ExerciseDB from '../dbops/ExerciseDB'
+import { Icon } from "@rneui/base";
 
 // import img from './icon.png'
 
-export default function App() {
+let NumberCards = 52
+
+const cardRes = require.context('../assets/PNG-cards-1.3', false);
+
+var cardImages = importAll()
+
+let DeckIndex = -1
+
+
+let Exercises: any[] = []
+let CurrentWorkout
+
+
+WorkoutDB.InitDB()
+ExerciseDB.InitDB()
+let Deck = getDeck(NumberCards)
+
+function importAll() {
+  let images = {};
+  cardRes.keys().forEach((item: string, index: number) => { images[item.replace('./', '')] = cardRes(item); });
+  return images
+}
+
+
+// Shuffle - Adapted from https://www.freecodecamp.org/news/how-to-shuffle-an-array-of-items-using-javascript-or-typescript/
+function shuffle (array: number[]) { 
+  for (let i = array.length - 1; i > 0; i--) { 
+    const j = Math.floor(Math.random() * (i + 1)); 
+    [array[i], array[j]] = [array[j], array[i]]; 
+  } 
+  return array; 
+}; 
+
+// Takes a numer of cards <= 52
+function getDeck(numCards: number){
+  console.log("Reset deck")
+  let arr = []
+  for (let i = 0; i < numCards; i++){
+    arr.push(i)
+  }
+  arr = shuffle(arr)
+  
+  return arr.slice(0, numCards)
+}
+
+/**
+ * 0 - 12 => diamonds
+ * 13 - 25 => hearts
+ * 26 - 38 => clubs
+ * 39 - 51 => spades
+ * @param cardID
+ */
+function cardToExercise(cardID: number){
+  let suit = Math.floor(cardID / 13)
+  let exer = Exercises[suit]
+  return exer
+}
+
+function getExerName(cardID: number){
+  let e = cardToExercise(cardID)
+  if (e != undefined){
+    return e.name
+  } else {
+    return ""
+  }
+}
+
+function getCardImage(cardID: number){
+  let suit = Math.floor(cardID / 13)
+  let suitStrArr = ["diamonds", "hearts", "clubs", "spades"]
+  let suitStr = suitStrArr[suit]
+
+  let num = (cardID - (suit * 13)) + 2
+  let numStr
+
+  switch(num){
+    case 11: 
+      numStr = "jack"
+      break;
+    case 12:
+      numStr = "queen"
+      break
+    case 13:
+      numStr = "king"
+      break
+    case 14:
+      numStr = "ace"
+      break
+    default:
+      numStr = num.toString()
+  }
+
+  let fileName: string = numStr + "_of_" + suitStr + ".png"
+  return cardImages[fileName]
+}
+
+function getCardNum(cardID: number){
+  let suit = Math.floor(cardID / 13)
+  return (cardID - (suit * 13)) + 2
+}
+
+function getRemainingCards(){
+  return NumberCards - DeckIndex - 1
+}
+
+export default function App({route, navigation}) {
+  const [workoutName, setWorkoutName] = useState("")
+  const [nextCardID, setNextCardID] = useState(-1)
+  const {workoutID} = route.params
+
   const styles = useStyles();
   const { setMode, mode } = useThemeMode();
+  
+  useEffect(() =>{
+    let workout = WorkoutDB.GetWorkout(workoutID)
+    workout.then((w:Workout) => {
+        setWorkoutName(w.name)
+        ExerciseDB.GetExercises(w.exerciseIDs).then((exercises) => {
+          Exercises = exercises
+          nextExer()
+        })
+    }).catch((e) => {console.log("err: " + e)})
+  }, []) 
 
-  const handleOnPress = () => {
-    setMode(mode === "dark" ? "light" : "dark");
-  };
+
+  const nextExer = () =>{
+    DeckIndex++
+    if (DeckIndex >= NumberCards){
+      console.log("Workout ended!")
+      return
+    }
+  
+    setNextCardID(Deck[DeckIndex])
+    let e = cardToExercise(Deck[DeckIndex])
+
+  }
 
 
   return (
     <View style={styles.contentContainer}>
-      <View style={styles.xContainer}>
-      <Image
-        source={require("../assets/x_icon.png")}
-        style={styles.xIcon}
-        />
-        </View>
-      <View style={styles.workoutNameContainer}>
-      <Text h3 style = {styles.workoutName}>Monday Soccer Training</Text>
+      <View style={styles.topbar}>
+        <Text h4 style={styles.stat}>{getRemainingCards()}</Text>
+        <Text h4 style = {styles.stat} >{workoutName}</Text>
+        <Text h4 style={styles.stat}></Text>
       </View>
+      {/* <View style={styles.workoutNameContainer}>
+      </View> */}
       <View style={styles.imageContainer}>
         <Image
-              source={require("../assets/PNG-cards-1.3/2_of_hearts.png") }
+              source={getCardImage(nextCardID)}
               style={styles.image}
+              
 
             />
       </View>
-      <View style={styles.instructionContainer}>
-        <Text h1 style={styles.instruction} >8</Text>
-        <Text h1 style={styles.instruction}>Push Ups</Text>
+      <View style={styles.instructionContainer}
+      >
+        <Text h2 style={styles.instruction} >{getCardNum(nextCardID)}</Text>
+        <Text h2 style={styles.instruction}>{getExerName(Deck[DeckIndex])}</Text>
+        
       </View>
-      <View style={styles.statContainer}>
-        <View style={styles.statColumn}>
-          <Image style={styles.icon} source={require("../assets/card_icon.png")}></Image>
-          <Text h3 style={styles.stat}>52</Text>
-
-        </View>
-        <View style={styles.statColumn}>
-          <Image style={styles.icon} source={require("../assets/clock.png")}></Image>
-          <Text h3 style={styles.stat}>3:00</Text>
-
-        </View>
-      </View>
-      {/* <Button onPress={handleOnPress}>Switch Theme</Button> */}
+      
+      <TouchableOpacity
+      style={styles.forwardBtnContainer}
+      onPress={() => { 
+        nextExer()
+      }}
+      >
+        <Icon
+          type="font-awesome"
+          name="forward"
+          size={128}
+          style={styles.nextBtn}
+          color="black"
+          
+        />
+      </TouchableOpacity>
+        
 
     </View>
   );
 }
+
+
 
 const useStyles = makeStyles((theme) => ({
   contentContainer: {
@@ -62,6 +201,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "space-evenly"
+  },
+  topbar:{
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   xContainer:{
     flex: 0.4,
@@ -90,15 +234,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 16
     
   },
-  // text: {
-  //   marginVertical: theme.spacing.lg,
-  //   color: "#ffffff"
-  // },
-  workoutNameContainer:{
-    alignItems: "center",
-    justifyContent: "center",
-    display: "flex",
-    flex: 0.25
+  forwardBtnContainer: {
+    width: "100%"
   },
   imageContainer:{
     alignItems: "center",
@@ -110,9 +247,22 @@ const useStyles = makeStyles((theme) => ({
     height: 42,
     width:42
   },
+  endIcon:{ 
+    height: 100,
+    width:100,
+    marginBottom: 16
+  },
   workoutName:{
     color: "#ffffff",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    // textAlign: "center",
+    marginTop: 64,
+    flex: 1
+  },
+  nextBtn:{
+    marginBottom: 32,
+    marginTop: 16,
+    width: "100%"
   },
   image: {
     // backgroundColor: "#ffffff",
@@ -120,6 +270,8 @@ const useStyles = makeStyles((theme) => ({
      width: 250 * 1.1,
     // alignSelf: "stretch",
     // height: "100%",
+
+
     // width: "100%",
       
     // height:"363",
@@ -134,7 +286,10 @@ const useStyles = makeStyles((theme) => ({
   },
   instruction:{
     color: "#ffffff",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    textAlign: "center",
+    maxWidth: "80%",
+    alignSelf: "center"
   },
   bottomTab: {
     flex: 1
@@ -142,6 +297,8 @@ const useStyles = makeStyles((theme) => ({
   stat: {
     color: "#ffffff",
     fontWeight: "bold",
-    marginTop: 8,
+    marginTop: 64,
+    flex: 1,
+    textAlign:"center"
   }
 }));
