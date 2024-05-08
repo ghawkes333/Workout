@@ -123,6 +123,7 @@ export default function App({route, navigation}) {
   
   useEffect(() =>{
     let workout = WorkoutDB.GetWorkout(workoutID)
+    DeckIndex = -1
     workout.then((w:Workout) => {
         setWorkoutName(w.name)
         ExerciseDB.GetExercises(w.exerciseIDs).then((exercises) => {

@@ -36,7 +36,7 @@ export default function App({navigation}){
                 </ScrollView>
             </View>
 
-            <View style={styles.bottomTab}>
+            {/* <View style={styles.bottomTab}>
                 
             <Icon
                 name="check-square-o"
@@ -46,7 +46,7 @@ export default function App({navigation}){
                 />
              <Icon size={48} name="dumbbell" type="font-awesome-5" color="black"/>
             <Icon size={48} name="bar-graph" type="entypo" /> 
-            </View>
+            </View> */}
 
         </View>
     );

@@ -5,9 +5,20 @@ import { Pressable, TouchableOpacity, View } from "react-native";
 import { Image } from '@rneui/themed';
 
 
+
 export default function App({route, navigation}){
     const styles = useStyles()
-    let {workoutID, workoutName} = route.params
+    let workoutID = -1
+    let workoutName = ""
+    if (route.params == undefined) {
+        workoutID = 1
+        workoutName = "Upper (Body Weight)"
+    } else {
+        console.log(typeof route.params)
+        workoutID = route.params.workoutID
+        workoutName = route.params.workoutName
+        
+    }
 
     return (
 
@@ -28,37 +39,11 @@ export default function App({route, navigation}){
                 <Text h3 style={styles.mainText}>Full Deck</Text>
             </View>
 
-            <View style={styles.bottomTab}>
-                
-            <Icon
-                name="check-square-o"
-                type="font-awesome"
-                color="#000000"
-                size={64}
-                />
-             <Icon size={48} name="dumbbell" type="font-awesome-5" color="black"/>
-            <Icon size={48} name="bar-graph" type="entypo" /> 
-            </View>
 
         </View>
     );
 }
 
-/**
- 
-<View style={styles.bottomTab}>
-                <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: 2})}}>
-                    <View style={styles.startBtn}>
-                    <Icon  size={150} color="#ff3a30" name="circle" type="FontAwesome"/>
-                    <Text h1 style={styles.startLabel}>Start</Text>
-                    </View>
-                </TouchableOpacity>
-                <Icon size={48} name="check-square-o" type="font-awesome" />
-                <Icon size={48} name="dumbbell" type="font-awesome-5" />
-                <Icon size={48} name="bar-graph" type="entypo" />
-                </View>
-
- */
 
 
 const useStyles = makeStyles((theme) => ({
