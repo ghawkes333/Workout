@@ -8,13 +8,14 @@ import { Icon } from "@rneui/base";
 
 // import img from './icon.png'
 
-let NumberCards = 52
+let NumberCards = -1
 
 const cardRes = require.context('../assets/PNG-cards-1.3', false);
 
 var cardImages = importAll()
 
 let DeckIndex = -1
+let Deck = []
 
 
 let Exercises: any[] = []
@@ -23,7 +24,6 @@ let CurrentWorkout
 
 WorkoutDB.InitDB()
 ExerciseDB.InitDB()
-let Deck = getDeck(NumberCards)
 
 function importAll() {
   let images = {};
@@ -116,12 +116,15 @@ function getRemainingCards(){
 export default function App({route, navigation}) {
   const [workoutName, setWorkoutName] = useState("")
   const [nextCardID, setNextCardID] = useState(-1)
-  const {workoutID} = route.params
+  const {workoutID, numCards} = route.params
 
   const styles = useStyles();
   const { setMode, mode } = useThemeMode();
   
   useEffect(() =>{
+    NumberCards = numCards
+    Deck = getDeck(NumberCards)
+    nextExer()
     let workout = WorkoutDB.GetWorkout(workoutID)
     DeckIndex = -1
     workout.then((w:Workout) => {
@@ -150,7 +153,7 @@ export default function App({route, navigation}) {
   return (
     <View style={styles.contentContainer}>
       <View style={styles.topbar}>
-        <Text h4 style={styles.stat}>{getRemainingCards()}</Text>
+        <Text h4 style={styles.stat}>{getRemainingCards() + 1}</Text>
         <Text h4 style = {styles.stat} >{workoutName}</Text>
         <Text h4 style={styles.stat}></Text>
       </View>

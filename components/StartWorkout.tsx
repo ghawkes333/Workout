@@ -1,12 +1,28 @@
 import { makeStyles, Text, Button, FAB, Divider  } from "@rneui/base";
 import {Icon} from "@rneui/themed"
 import { Pressable, TouchableOpacity, View } from "react-native";
+import { SelectList } from 'react-native-dropdown-select-list'
+import {useState} from 'react'
+
 
 import { Image } from '@rneui/themed';
+
+import ChooseDeckSize from './ChooseDeckSize'
+
+
+
+  
+const data = [
+    {key:'13', value:'Novice (Quarter Deck)'},
+    {key:'26', value:'Mid (Half Deck)'},
+    {key:'39', value:'Difficult (Three Quarter Deck)'},
+    {key:'52', value:'Extreme (Full Deck)'},
+]
 
 
 
 export default function App({route, navigation}){
+    const [selected, setSelected] = useState("");
     const styles = useStyles()
     let workoutID = -1
     let workoutName = ""
@@ -25,18 +41,25 @@ export default function App({route, navigation}){
         <View style={styles.contentContainer}>
             <View style = {styles.mainContentContainer}>
                  <Text h1 style={styles.mainText}>{workoutName}</Text>
-                 <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: workoutID})}}>
+                 <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: workoutID, numCards: selected})}}>
                     <View style={styles.startBtn}>    
                         <Icon  
                             name="circle"
                             type="font-awesome"
-                            color="#ff3a30"                          
+                            color="#ff3a30" 
                             
                             size={150}/>
                         <Text h1 style={styles.startLabel}>Start</Text>
                     </View>
                 </TouchableOpacity>
-                <Text h3 style={styles.mainText}>Full Deck</Text>
+                
+                <SelectList 
+                    setSelected={(val) => setSelected(val)} 
+                    data={data} 
+                    save="key"
+                    search={false}
+                    defaultOption={{key:'13', value:'Novice (Quarter Deck)'}}
+                />
             </View>
 
 
@@ -66,6 +89,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: 32,
         marginTop: 32
     },
+    bottomSheet:{
+        height: 100,
+        backgroundColor: "black"
+    },
     bottomTab: {
         marginBottom: 16,
         flex: 0.1,
@@ -87,5 +114,8 @@ const useStyles = makeStyles((theme) => ({
         alignItems:'center',
         alignSelf:'center', 
         justifyContent: "center"
+    },
+    dropdown: {
+        position: "absolute"
     }
 }));

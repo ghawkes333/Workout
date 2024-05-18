@@ -80,6 +80,7 @@ export default function App({route, navigation}){
             );
         }}} 
         component={WorkoutListScreen} />
+
       <Tab.Screen name="StartWorkout" 
         options={{headerShown: false, tabBarShowLabel: false, tabBarIcon: ({focused, color, size}) => {
           let c = focused ? "black" : "gray"
