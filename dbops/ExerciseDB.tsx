@@ -131,6 +131,7 @@ function clear(){
 
 const _ = {
     InitDB,
-    GetExercises
+    GetExercises,
+    GetAllExercises
 }
 export default _
