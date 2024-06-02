@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StartScreen from "../components/StartWorkout"
 import WorkoutListScreen from "../components/WorkoutList"
+import EditDB from "../components/EditDB"
 import { Icon } from '@rneui/base';
 import { mergeRealmConfiguration } from '@realm/react/dist/RealmProvider';
 
@@ -89,6 +90,15 @@ export default function App({route, navigation}){
             );
         }}}  
         component={StartScreen} />
+
+        <Tab.Screen name="EditDB" 
+          options={{headerShown: false, tabBarShowLabel: false, tabBarIcon: ({focused, color, size}) => {
+            let c = focused ? "black" : "gray"
+              return (
+                <Icon size={48} name="edit" type="font-awesome-5" color={c}/>
+              );
+          }}}  
+          component={EditDB} />
     </Tab.Navigator>
   );
 }
