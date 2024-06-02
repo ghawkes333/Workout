@@ -1,15 +1,25 @@
 import { Card, makeStyles, Text, Button, FAB, Divider, ListItem  } from "@rneui/base";
 import {Icon} from "@rneui/themed"
 import { Pressable, ScrollView, TouchableOpacity, View } from "react-native";
+import {SetStateAction, useState} from "react"
 
 import { Image } from '@rneui/themed';
 
-let workoutStr = ["Upper (Body Weight)","Lower (Body Weight)","Full Body (Body Weight)","Cardio","Soccer Training","Upper (Dumbbell)","Lower (Dumbbell)","Full Body (Dumbbell)","Runner\'s Workout","Core"]
+import WorkoutDB from '../dbops/WorkoutDB'
+import ExerciseDB from '../dbops/ExerciseDB'
+
+WorkoutDB.InitDB()
+ExerciseDB.InitDB()
+
+let workoutStr = ["Upper (Body Weight)","Lower (Body Weight)","Full Body (Body Weight)","Cardio","Soccer Training","Upper (Dumbbell)","Lower (Dumbbell)","Full Body (Dumbbell)","Runner Workout","Core"]
 let ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 let workouts = workoutStr.map((val, i) => {return [val, ids[i]]})
 
-export default function App({navigation}){
+export default function App({navigation}){    
+
     const styles = useStyles()
+    
+
     return (
 
         <View style={styles.contentContainer}>
@@ -24,6 +34,9 @@ export default function App({navigation}){
                             let w = workouts[i]
                             let id = w[1]
                             let name = w[0]
+                            console.log(w.toString())
+                            console.log(id)
+                            console.log(name)
                             navigation.navigate('StartWorkout', {workoutID: id, workoutName: name})
                         }}>
                             <Card>

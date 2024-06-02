@@ -6,6 +6,7 @@ import WorkoutListScreen from "./components/WorkoutList"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TabNavigationScreen from './components/TabNavigationScreen'
+import EndWorkoutScreen from './components/EndWorkout'
 // import {Timer} from './components/Timer'
 
 const Stack = createNativeStackNavigator()
@@ -23,6 +24,8 @@ export default function App() {
           {/* <Stack.Screen name="Timer" options={{headerShown: false}} component={Timer}></Stack.Screen> */}
           <Stack.Screen name="TabNavScreen" options={{headerShown: false}} component={TabNavigationScreen}></Stack.Screen>
           <Stack.Screen name="WorkoutScreen" options={{headerShown: false}} component={WorkoutScreen} />
+          <Stack.Screen name="EndWorkoutScreen" options={{headerShown: false}} component={EndWorkoutScreen} />
+  
         </Stack.Navigator>
         
       </NavigationContainer>

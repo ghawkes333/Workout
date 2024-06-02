@@ -17,6 +17,10 @@ var cardImages = importAll()
 let DeckIndex = -1
 let Deck = []
 
+let NumberReps = 0
+
+let StartTime : Date = new Date()
+
 
 let Exercises: any[] = []
 let CurrentWorkout
@@ -24,6 +28,7 @@ let CurrentWorkout
 
 WorkoutDB.InitDB()
 ExerciseDB.InitDB()
+
 
 function importAll() {
   let images = {};
@@ -45,7 +50,7 @@ function shuffle (array: number[]) {
 function getDeck(numCards: number){
   console.log("Reset deck")
   let arr = []
-  for (let i = 0; i < numCards; i++){
+  for (let i = 0; i < 52; i++){
     arr.push(i)
   }
   arr = shuffle(arr)
@@ -113,24 +118,36 @@ function getRemainingCards(){
   return NumberCards - DeckIndex - 1
 }
 
+
 export default function App({route, navigation}) {
   const [workoutName, setWorkoutName] = useState("")
   const [nextCardID, setNextCardID] = useState(-1)
   const {workoutID, numCards} = route.params
 
+  
+
   const styles = useStyles();
   const { setMode, mode } = useThemeMode();
   
   useEffect(() =>{
+    
     NumberCards = numCards
     Deck = getDeck(NumberCards)
-    nextExer()
     let workout = WorkoutDB.GetWorkout(workoutID)
     DeckIndex = -1
     workout.then((w:Workout) => {
+        console.log(w.name + " has " + w.exerciseIDs)
         setWorkoutName(w.name)
-        ExerciseDB.GetExercises(w.exerciseIDs).then((exercises) => {
+        ExerciseDB.GetExercises(w.exerciseIDs.split(", ")).then((exercises) => {
+          console.log(w.exerciseIDs.length)
+          console.log(w.exerciseIDs + " are " + JSON.stringify(exercises))
           Exercises = exercises
+          console.log(JSON.stringify(Exercises))
+          // Exercises = []
+          // for (let e of exercises){
+          //   Exercises.push(e)
+          // }
+          StartTime = new Date()
           nextExer()
         })
     }).catch((e) => {console.log("err: " + e)})
@@ -138,11 +155,40 @@ export default function App({route, navigation}) {
 
 
   const nextExer = () =>{
+    if (nextCardID != -1){
+      console.log("Next num reps" + getCardNum(nextCardID))
+      NumberReps = NumberReps + getCardNum(nextCardID)
+      console.log(NumberReps)
+
+    }
+
     DeckIndex++
-    if (DeckIndex >= NumberCards){
+    if (DeckIndex >= NumberCards && NumberCards != -1){
       console.log("Workout ended!")
+      let numCards = NumberCards
+      let numReps = NumberReps
+      let startTime = StartTime
+      let end = new Date()
+      let sec = (end.getTime() - startTime.getTime()) / 1000
+      let min = Math.floor(sec / 60)
+      let minStr = min.toString()
+      sec = Math.floor(sec % 60)
+      let secStr = sec.toString()
+      if (min < 10){
+        minStr = "0" + minStr
+      }
+      if (sec < 10){
+        secStr = "0" + secStr
+      }
+      let timeStr = minStr + ":" + secStr
+
+      reset()
+      console.log(workoutName)
+      navigation.navigate('EndWorkoutScreen', {workoutName: workoutName, numCards: numCards, numReps: numReps, time: timeStr})
       return
     }
+
+    
   
     setNextCardID(Deck[DeckIndex])
     let e = cardToExercise(Deck[DeckIndex])
@@ -193,6 +239,16 @@ export default function App({route, navigation}) {
 
     </View>
   );
+
+  
+  function reset(){
+    NumberCards = -1
+    DeckIndex = -1
+    NumberReps = 0
+    StartTime = new Date()
+    setNextCardID(-1)
+    setWorkoutName("")
+  }
 }
 
 
