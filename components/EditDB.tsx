@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, SafeAreaView, FlatList } from "react-native";
 import { makeStyles, Text, Button, useThemeMode } from "@rneui/themed";
 import ExerciseDB from "../dbops/ExerciseDB"
 import WorkoutDB from "../dbops/WorkoutDB"
@@ -7,39 +7,37 @@ import { Card, FAB, Divider, ListItem  } from "@rneui/base";
 import {Icon} from "@rneui/themed"
 import { Pressable, ScrollView, TouchableOpacity } from "react-native";
 
-let Exercises: any[] = []
 
 export default function App(){
-    let styles = useStyles()
-    useEffect(() => {
+    let [Exercises, setExercises]: any[] = useState([{"name": "Not loaded", "id": 0}])
 
+    let styles = useStyles()
+
+
+
+    useEffect(() => {
+        ExerciseDB.InitDB()
+        console.log("getting")
+        
         ExerciseDB.GetAllExercises().then((exerArr) => {
-            Exercises = exerArr
+            // setExercises(exerArr)
+            console.log("exerarr: ")
+            console.log(exerArr)
+            console.log("Exercises: ")
+            console.log(Exercises)
         })
-    })
+    }, [])
+
+
+
     return (
-        <View>
-            
-            <ScrollView style={styles.listContainer}>
-                <Card.Divider/>
-                {
-                    Exercises.map((e, i) => {
-                    return (
-                        <TouchableOpacity key={i} onPress={(v) => {
-                            let w = e[i]
-                            let id = w[1]
-                            let name = w[0]
-                            // navigation.navigate('StartWorkout', {workoutID: id, workoutName: name})
-                        }}>
-                            <Card>
-                                <Text h4 style={styles.textListItem}>{e.name}</Text>
-                            </Card>
-                        </TouchableOpacity>
-                    );
-                    })
-                }
-                </ScrollView>
-        </View>
+        <SafeAreaView style={styles.contentContainer}>
+        <FlatList
+            data={Exercises}
+            renderItem={(e) => <Text>{e.name} is great</Text>}
+            keyExtractor={item => item.id}
+        />
+        </SafeAreaView>
     );
 }
 

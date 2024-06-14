@@ -46,8 +46,7 @@ export default function App({route, navigation}){
                         <Icon  
                             name="circle"
                             type="font-awesome"
-                            // color="#ff3a30" 
-                            color ="#F8C8DC"
+                            color="#ff3a30" 
                             
                             size={150}/>
                         <Text h1 style={styles.startLabel}>Start</Text>
