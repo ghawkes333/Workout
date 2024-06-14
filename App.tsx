@@ -5,7 +5,6 @@ import StartScreen from "./components/StartWorkout"
 import WorkoutListScreen from "./components/WorkoutList"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabNavigationScreen from './components/TabNavigationScreen'
 import EndWorkoutScreen from './components/EndWorkout'
 // import {Timer} from './components/Timer'
 
@@ -21,8 +20,8 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="Timer" options={{headerShown: false}} component={Timer}></Stack.Screen> */}
-          <Stack.Screen name="TabNavScreen" options={{headerShown: false}} component={TabNavigationScreen}></Stack.Screen>
+          <Stack.Screen name="WorkoutListScreen" options={{headerShown: false}} component={WorkoutListScreen}></Stack.Screen>
+          <Stack.Screen name="StartScreen" options={{headerShown: false}} component={StartScreen}></Stack.Screen>
           <Stack.Screen name="WorkoutScreen" options={{headerShown: false}} component={WorkoutScreen} />
           <Stack.Screen name="EndWorkoutScreen" options={{headerShown: false}} component={EndWorkoutScreen} />
   

@@ -37,7 +37,7 @@ export default function App({navigation}){
                             console.log(w.toString())
                             console.log(id)
                             console.log(name)
-                            navigation.navigate('StartWorkout', {workoutID: id, workoutName: name})
+                            navigation.navigate('StartScreen', {workoutID: id, workoutName: name})
                         }}>
                             <Card>
                                 <Text h4 style={styles.textListItem}>{row[0]}</Text>
@@ -49,17 +49,6 @@ export default function App({navigation}){
                 </ScrollView>
             </View>
 
-            {/* <View style={styles.bottomTab}>
-                
-            <Icon
-                name="check-square-o"
-                type="font-awesome"
-                color="#000000"
-                size={64}
-                />
-             <Icon size={48} name="dumbbell" type="font-awesome-5" color="black"/>
-            <Icon size={48} name="bar-graph" type="entypo" /> 
-            </View> */}
 
         </View>
     );
