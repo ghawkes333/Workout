@@ -20,6 +20,7 @@ let Deck = []
 let NumberReps = 0
 
 let StartTime : Date = new Date()
+let NumExerInWorkout = 0
 
 
 let Exercises: any[] = []
@@ -66,9 +67,15 @@ function getDeck(numCards: number){
  * @param cardID
  */
 function cardToExercise(cardID: number){
-  let suit = Math.floor(cardID / 13)
-  let exer = Exercises[suit]
-  return exer
+  if (NumExerInWorkout == 4){
+    let suit = Math.floor(cardID / 13)
+    let exer = Exercises[suit]
+    return exer
+  } else {
+    let num = cardID % NumExerInWorkout
+    let exer = Exercises[num]
+    return exer
+  }
 }
 
 function getExerName(cardID: number){
@@ -148,6 +155,7 @@ export default function App({route, navigation}) {
           //   Exercises.push(e)
           // }
           StartTime = new Date()
+          NumExerInWorkout = w.exerciseIDs.split(", ").length
           nextExer()
         })
     }).catch((e) => {console.log("err: " + e)})
@@ -231,7 +239,7 @@ export default function App({route, navigation}) {
           name="forward"
           size={128}
           style={styles.nextBtn}
-          color="black"
+          color="white"
           
         />
       </TouchableOpacity>
@@ -246,6 +254,7 @@ export default function App({route, navigation}) {
     DeckIndex = -1
     NumberReps = 0
     StartTime = new Date()
+    NumExerInWorkout = 0
     setNextCardID(-1)
     setWorkoutName("")
   }

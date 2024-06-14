@@ -88,7 +88,8 @@ const useStyles = makeStyles((theme) => ({
     },
     mainText:{
         marginBottom: 32,
-        marginTop: 32
+        marginTop: 32,
+        marginHorizontal: 16
     },
     bottomSheet:{
         height: 100,
