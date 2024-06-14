@@ -11,8 +11,8 @@ import ExerciseDB from '../dbops/ExerciseDB'
 WorkoutDB.InitDB()
 ExerciseDB.InitDB()
 
-let workoutStr = ["Upper (Body Weight)","Lower (Body Weight)","Full Body (Body Weight)","Cardio","Soccer Training","Upper (Dumbbell)","Lower (Dumbbell)","Full Body (Dumbbell)","Runner Workout","Core"]
-let ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+let workoutStr = WorkoutDB.workoutNames
+let ids = WorkoutDB.workoutIDs
 let workouts = workoutStr.map((val, i) => {return [val, ids[i]]})
 
 export default function App({navigation}){    

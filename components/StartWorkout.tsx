@@ -3,6 +3,7 @@ import {Icon} from "@rneui/themed"
 import { Pressable, TouchableOpacity, View } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import {useState} from 'react'
+import WorkoutDB from '../dbops/WorkoutDB'
 
 
 import { Image } from '@rneui/themed';
@@ -27,8 +28,8 @@ export default function App({route, navigation}){
     let workoutID = -1
     let workoutName = ""
     if (route.params == undefined) {
-        workoutID = 1
-        workoutName = "Upper (Body Weight)"
+        workoutID = WorkoutDB.workoutIDs[0]
+        workoutName = WorkoutDB.workoutNames[0]
     } else {
         console.log(typeof route.params)
         workoutID = route.params.workoutID

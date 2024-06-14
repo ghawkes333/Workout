@@ -5,6 +5,11 @@ import { Asset } from 'expo-asset';
 const workoutTableName = "workout"
 const dbName = "workoutDB"
 
+
+const workoutNames = ["Core (Body Weight)", "Upper (Body Weight)", "Lower (Body Weight)", "Full Body (Body Weight)", "Upper (Dumbbell)", "Lower (Dumbbell)", "Full Body (Dumbbell)", "Upper (Barbell)", "Lower (Barbell)", "Full Body (Barbell)", "Cardio", "Soccer Training", "Runner Workout"]
+const workoutIDs =  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+
+
 class Workout{
     name: string;
     exerciseIDs: number[];
@@ -30,12 +35,10 @@ async function InitDB(){
     // let ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     // let names = ["Upper (Body Weight)","Lower (Body Weight)","Full Body (Body Weight)","Cardio","Soccer Training","Upper (Dumbbell)","Lower (Dumbbell)","Full Body (Dumbbell)","Runner Workout","Core"]
     // let exerIds = ["36, 37, 71, 72, 47","51, 52, 63, 77","31, 37, 71, 23, 51, 52, 63, 77","23, 51, 77, 78, 63, 79","47, 25, 63, 64, 31, 37","11, 27, 65, 30, 7","49, 57, 59, 60","11, 27, 30, 7, 49, 57, 59, 60","80, 23, 37, 63, 64, 47","47, 37, 85, 77, 87"]
-    let ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    let names = ["Core (Body Weight)", "Upper (Body Weight)", "Lower (Body Weight)", "Full Body (Body Weight)", "Upper (Dumbbell)", "Lower (Dumbbell)", "Full Body (Dumbbell)", "Upper (Barbell)", "Lower (Barbell)", "Full Body (Barbell)", "Cardio", "Soccer Training", "Runner Workout"]
     let exerIds = ['1, 13, 21, 29', '2, 14, 22, 30', '3, 15, 23, 31', '4, 3, 23, 10', '5, 16, 24, 32', '6, 17, 25, 33', '5, 16, 17, 33', '7, 18, 26, 34', '8, 19, 27, 9', '9, 8, 28, 26', '10, 3, 29, 23', '11, 20, 23, 35', '12, 10, 13, 15']
 
     let r = await db.runAsync("CREATE TABLE IF NOT EXISTS " + workoutTableName + " (id int PRIMARY KEY, name text, exerciseIDs text)")
-    await db.runAsync(jsObjToSQL(workoutTableName, ids, names, exerIds))
+    await db.runAsync(jsObjToSQL(workoutTableName, workoutIDs, workoutNames, exerIds))
 
 }
 
@@ -96,7 +99,9 @@ const _ = {
     InitDB,
     GetAllWorkouts,
     GetWorkout,
+    clear,
     Workout,
-    clear
+    workoutNames,
+    workoutIDs,
 }
 export default _
