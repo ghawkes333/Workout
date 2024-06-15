@@ -10,7 +10,8 @@ import { Image } from '@rneui/themed';
 
 import ChooseDeckSize from './ChooseDeckSize'
 
-
+const backButtonSize = 32;
+const backButtonTopMargin = 54;
 
   
 const data = [
@@ -40,6 +41,7 @@ export default function App({route, navigation}){
     return (
 
         <View style={styles.contentContainer}>
+            <Icon type="material" name="arrow-back-ios" color="#444444" size={backButtonSize} style={styles.back} onPress={() => {navigation.goBack()}}></Icon>
             <View style = {styles.mainContentContainer}>
                  <Text h1 style={styles.mainText}>{workoutName}</Text>
                  <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: workoutID, numCards: selected})}}>
@@ -55,6 +57,7 @@ export default function App({route, navigation}){
                 </TouchableOpacity>
                 
                 <SelectList 
+                    boxStyles={styles.dropdown}
                     setSelected={(val) => setSelected(val)} 
                     data={data} 
                     save="key"
@@ -71,12 +74,16 @@ export default function App({route, navigation}){
 
 
 const useStyles = makeStyles((theme) => ({
+    back: {
+        alignSelf: "flex-start",
+        marginHorizontal: 16,
+        marginTop: backButtonTopMargin,
+    },
     contentContainer: {
-        display: "flex",
         flex: 1, 
         flexDirection: "column",
         width: "100%",
-        alignItems: "center",
+        alignItems: "flex-start",
     },
     mainContentContainer: {
         display: "flex",
@@ -85,39 +92,24 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
+        paddingBottom: backButtonSize + backButtonTopMargin + 32
     },
     mainText:{
         marginBottom: 32,
         marginTop: 32,
-        marginHorizontal: 16
+        marginHorizontal: 16,
+        
     },
-    bottomSheet:{
-        height: 100,
-        backgroundColor: "black"
-    },
-    bottomTab: {
-        marginBottom: 16,
-        flex: 0.1,
-        flexDirection: "row",
-        display: "flex",
-        justifyContent:"space-around",
-        width: "100%",
-    },
-    icon:{
-        height: 64,
-        width: 64
-    }, 
     startLabel: {
         position: "absolute",
         color: "white"
     },
     startBtn: {
-        // color: "white"
         alignItems:'center',
         alignSelf:'center', 
         justifyContent: "center"
     },
     dropdown: {
-        position: "absolute"
+        marginTop: 32
     }
 }));
