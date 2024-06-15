@@ -36,10 +36,14 @@ const GetAllExercises = async() => {
  * Must init DB first
  * @returns Promise
  */
-const GetExercises = async(ids: []) => {
+const GetExercises = async(ids) => {
+    if (typeof ids == 'string'){
+        ids = ids.split(",")
+    }
     let db = await SQLite.openDatabaseAsync(dbName)
     let exerciseArr: Exercise[] = []
     let questionStr = "?,".repeat(ids.length)
+    // Remove last comma
     let questions = questionStr.substring(0, questionStr.length - 1)
     console.log("select * from " + exerciseTableName + " where ID in (" + questions + ")")
     console.log(ids)

@@ -137,7 +137,7 @@ export default function App({route, navigation}) {
   const { setMode, mode } = useThemeMode();
   
   useEffect(() =>{
-    
+    // At the beginning of each workout
     NumberCards = numCards
     Deck = getDeck(NumberCards)
     let workout = WorkoutDB.GetWorkout(workoutID)
