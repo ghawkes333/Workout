@@ -15,7 +15,7 @@ export default function App({route, navigation}) {
   return (
     <View style={styles.container}>
       {/* <Text h1 style={styles.title}>Great job! </Text> */}
-      <Icon size={48} name="x" type="feather" color={"black"} style={styles.exit} onPress={() => {navigation.navigate('TabNavScreen', {})}}/>
+      <Icon size={48} name="x" type="feather" color={"black"} style={styles.exit} onPress={() => {navigation.navigate('WorkoutListScreen', {})}}/>
       {/* onPress={navigation.navigate('TabNavScreen', {})} */}
       <Text h1 style={styles.title}>{workoutName}</Text>
       <View style={styles.statContainer}>

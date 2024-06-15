@@ -83,7 +83,7 @@ export default function App({route, navigation}){
                     data={data} 
                     save="key"
                     search={false}
-                    defaultOption={{key:'13', value:'Novice (Quarter Deck)'}}
+                    defaultOption={data[0]}
                 />
 
                 
