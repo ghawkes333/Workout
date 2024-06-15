@@ -208,7 +208,7 @@ export default function App({route, navigation}) {
     <View style={styles.contentContainer}>
       <View style={styles.topbar}>
         <Text h4 style={styles.stat}>{getRemainingCards() + 1}</Text>
-        <Text h4 style = {styles.stat} >{workoutName}</Text>
+        <Text h4 style = {styles.workoutNameStat} >{workoutName}</Text>
         <Text h4 style={styles.stat}></Text>
       </View>
       {/* <View style={styles.workoutNameContainer}>
@@ -239,7 +239,7 @@ export default function App({route, navigation}) {
           name="forward"
           size={128}
           style={styles.nextBtn}
-          color="white"
+          color="#eeeeee"
           
         />
       </TouchableOpacity>
@@ -275,6 +275,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: 16
   },
   xContainer:{
     flex: 0.4,
@@ -368,6 +369,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     marginTop: 64,
     flex: 1,
+    textAlign:"center"
+  },
+  workoutNameStat: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    marginTop: 64,
+    flex: 3,
     textAlign:"center"
   }
 }));
