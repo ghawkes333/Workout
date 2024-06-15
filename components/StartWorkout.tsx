@@ -77,15 +77,17 @@ export default function App({route, navigation}){
                     </View>
                 </TouchableOpacity>
 
+                <View style={styles.selectContainer}>
                 <SelectList 
-                    boxStyles={styles.dropdown}
+                    dropdownTextStyles={styles.dropdownText}
+                    inputStyles={styles.dropdownText}
                     setSelected={(val) => setSelected(val)} 
                     data={data} 
                     save="key"
                     search={false}
                     defaultOption={data[0]}
                 />
-
+                </View>
                 
                 <Text style={styles.exerNames}>{exerciseNames}</Text>
 
@@ -107,6 +109,10 @@ const useStyles = makeStyles((theme) => ({
         marginHorizontal: 16,
         marginTop: backButtonTopMargin,
     },
+    selectContainer: {
+        marginTop: 16,
+        flex: 2,
+    },
     contentContainer: {
         flex: 1, 
         flexDirection: "column",
@@ -114,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "flex-start",
     },
     mainContentContainer: {
+        marginTop:64,
         display: "flex",
         flex: 1, 
         flexDirection: "column",
@@ -138,8 +145,8 @@ const useStyles = makeStyles((theme) => ({
         alignSelf:'center', 
         justifyContent: "center"
     },
-    dropdown: {
-        marginTop: 32
+    dropdownText: {
+        fontSize: 16
     },
     exerNames: {
         textAlign: "center",
