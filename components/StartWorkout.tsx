@@ -62,7 +62,7 @@ export default function App({route, navigation}){
                 <Icon type="material" name="arrow-back-ios" color="#444444" size={backButtonSize} style={styles.back} ></Icon>
             </TouchableOpacity>
             <View style = {styles.mainContentContainer}>
-                 <Text h1 style={styles.mainText}>{workoutName}</Text>
+                 <Text h2 style={styles.mainText}>{workoutName}</Text>
                 
                 
                 <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: workoutID, numCards: selected})}}>
