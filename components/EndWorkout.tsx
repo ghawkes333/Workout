@@ -1,12 +1,14 @@
 import React, {useState} from "react";
-import { View } from "react-native";
+import { View , Image, TouchableOpacity} from "react-native";
 import { makeStyles, Text, Button, useThemeMode } from "@rneui/themed";
 import { Icon } from '@rneui/base';
+// import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function App({route, navigation}) {
   const {workoutName, numCards, numReps, time} = route.params
   const styles = useStyles();
   const { setMode, mode } = useThemeMode();
+  
 
   const handleOnPress = () => {
     setMode(mode === "dark" ? "light" : "dark");
@@ -15,7 +17,11 @@ export default function App({route, navigation}) {
   return (
     <View style={styles.container}>
       {/* <Text h1 style={styles.title}>Great job! </Text> */}
-      <Icon size={48} name="x" type="feather" color={"black"} style={styles.exit} onPress={() => {navigation.navigate('WorkoutListScreen', {})}}/>
+      {/* <Icon size={48} name="x" type="feather" color={"black"} style={styles.exit} onPress={() => {navigation.navigate('WorkoutListScreen', {})}}/> */}
+      <TouchableOpacity onPress={() => {navigation.navigate('WorkoutListScreen', {})}}>
+
+      <Image style={styles.exit} source={require("../assets/images/x_black.png")} />
+      </TouchableOpacity>
       {/* onPress={navigation.navigate('TabNavScreen', {})} */}
       <Text h1 style={styles.title}>{workoutName}</Text>
       <View style={styles.statContainer}>
@@ -45,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
   exit:{
     alignSelf: "flex-end",
     marginTop: 32,
-    marginRight: 32
+    marginRight: 32,
+    height: 48, 
+    width: 48
   },
   text: {
     marginVertical: theme.spacing.lg,

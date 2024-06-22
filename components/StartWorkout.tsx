@@ -1,10 +1,14 @@
-import { makeStyles, Text, Button, FAB, Divider  } from "@rneui/base";
+import { makeStyles, Text, Button, FAB, Divider  } from "@rneui/themed";
 import {Icon} from "@rneui/themed"
 import { Pressable, TouchableOpacity, View } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import {useEffect, useState} from 'react'
 import WorkoutDB from '../dbops/WorkoutDB'
 import ExerciseDB from '../dbops/ExerciseDB'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+
+
 
 
 import { Image } from '@rneui/themed';
@@ -59,7 +63,8 @@ export default function App({route, navigation}){
 
         <View style={styles.contentContainer}>
             <TouchableOpacity style={styles.touchBack} onPress={() => {navigation.goBack()}}>
-                <Icon type="material" name="arrow-back-ios" color="#444444" size={backButtonSize} style={styles.back} ></Icon>
+                {/* <Icon type="material" name="arrow-back-ios" color="#444444" size={backButtonSize} style={styles.back} ></Icon> */}
+                <Image source={require("../assets/images/arrow_back_ios_new_48dp.png")}  style={styles.back}/>
             </TouchableOpacity>
             <View style = {styles.mainContentContainer}>
                  <Text h2 style={styles.mainText}>{workoutName}</Text>
@@ -67,12 +72,13 @@ export default function App({route, navigation}){
                 
                 <TouchableOpacity onPress={() => {navigation.navigate('WorkoutScreen', {workoutID: workoutID, numCards: selected})}}>
                     <View style={styles.startBtn}>    
-                        <Icon  
-                            name="circle"
-                            type="font-awesome"
-                            color="#ff3a30" 
-                            
-                            size={150}/>
+                        {/* 
+                            Red color is #ff3a30
+                            */}
+                            <Image style={styles.circleImage} source={require("../assets/images/circle_48dp.png")}>
+
+
+                            </Image>
                         <Text h1 style={styles.startLabel}>Start</Text>
                     </View>
                 </TouchableOpacity>
@@ -108,6 +114,8 @@ const useStyles = makeStyles((theme) => ({
         alignSelf: "flex-start",
         marginHorizontal: 16,
         marginTop: backButtonTopMargin,
+        height: backButtonSize, 
+        width: backButtonSize
     },
     selectContainer: {
         marginTop: 16,
@@ -154,5 +162,9 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 16,
         position: "absolute",
         bottom: 16
+    },
+    circleImage: {
+        height: 150,
+        width: 150
     }
 }));

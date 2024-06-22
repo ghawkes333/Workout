@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BottomSheet, Button, ListItem } from '@rneui/themed';
 import { StyleSheet } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+// import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 type BottomSheetComponentProps = {};
 
@@ -19,7 +19,7 @@ const list = [
 ];
 
 return (
-  <SafeAreaProvider>
+  <View>
     <Button
       title="Open Bottom Sheet"
       onPress={() => setIsVisible(true)}
@@ -38,7 +38,7 @@ return (
         </ListItem>
       ))}
     </BottomSheet>
-  </SafeAreaProvider>
+  </View>
 );
 };
 

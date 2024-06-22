@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from "react";
 import { createTheme, ThemeProvider } from "@rneui/themed";
 import WorkoutScreen from "./components/WorkoutScreen"

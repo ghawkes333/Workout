@@ -4,7 +4,7 @@ import { makeStyles, Text, Button, useThemeMode } from "@rneui/themed";
 import { Image } from '@rneui/themed';
 import WorkoutDB from '../dbops/WorkoutDB'
 import ExerciseDB from '../dbops/ExerciseDB'
-import { Icon } from "@rneui/base";
+import { Icon } from "@rneui/themed";
 
 // import img from './icon.png'
 
@@ -192,7 +192,9 @@ export default function App({route, navigation}) {
 
       reset()
       console.log(workoutName)
+      console.log("About to navigate")
       navigation.navigate('EndWorkoutScreen', {workoutName: workoutName, numCards: numCards, numReps: numReps, time: timeStr})
+      console.log("navigated")
       return
     }
 
@@ -234,14 +236,7 @@ export default function App({route, navigation}) {
         nextExer()
       }}
       >
-        <Icon
-          type="font-awesome"
-          name="forward"
-          size={128}
-          style={styles.nextBtn}
-          color="#eeeeee"
-          
-        />
+        <Image source={require("../assets/images/forward-solid.png")} style={styles.nextBtn}/>
       </TouchableOpacity>
         
 
@@ -287,7 +282,8 @@ const useStyles = makeStyles((theme) => ({
   instructionContainer: {
     flex: 1,
     justifyContent: "flex-start",
-    alignItems: "center"
+    alignItems: "flex-end",
+    marginTop: 16
   },
   statColumn: {
     flexDirection: "column",
@@ -305,7 +301,9 @@ const useStyles = makeStyles((theme) => ({
     
   },
   forwardBtnContainer: {
-    width: "100%"
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   imageContainer:{
     alignItems: "center",
@@ -332,7 +330,8 @@ const useStyles = makeStyles((theme) => ({
   nextBtn:{
     marginBottom: 32,
     marginTop: 16,
-    width: "100%"
+    height:128, 
+    width:128
   },
   image: {
     // backgroundColor: "#ffffff",

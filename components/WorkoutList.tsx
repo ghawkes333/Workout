@@ -1,4 +1,4 @@
-import { Card, makeStyles, Text, Button, FAB, Divider, ListItem  } from "@rneui/base";
+import { Card, makeStyles, Text, Button, FAB, Divider, ListItem  } from "@rneui/themed";
 import {Icon} from "@rneui/themed"
 import { Pressable, ScrollView, TouchableOpacity, View } from "react-native";
 import {SetStateAction, useState} from "react"
